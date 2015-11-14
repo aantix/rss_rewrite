@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20151113025009) do
     t.string   "description", limit: 255
     t.string   "uid",         limit: 255
     t.string   "url",         limit: 255
+    t.string   "rss_type",    limit: 255
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end

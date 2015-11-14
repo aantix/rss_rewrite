@@ -10,7 +10,7 @@ class RssesController < ApplicationController
   # GET /rsses/1
   # GET /rsses/1.json
   def show
-    @posts = SubredditRss.new(@rss.url).feed
+    @posts = @rss.rss_type.constantize.new(@rss.url).feed
   end
 
   # GET /rsses/new

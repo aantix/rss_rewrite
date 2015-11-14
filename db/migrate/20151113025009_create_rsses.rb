@@ -5,6 +5,7 @@ class CreateRsses < ActiveRecord::Migration
       t.string :description
       t.string :uid
       t.string :url
+      t.string :rss_type
 
       t.timestamps null: false
     end
