@@ -10,7 +10,6 @@ class RssesController < ApplicationController
   # GET /rsses/1
   # GET /rsses/1.json
   def show
-    puts "show!!!!!!!!!!!!!!!!!!!!"
     @posts = Rails.cache.fetch("feed-#{params[:id]}", expires_in: 60.minutes) do
       @rss.rss_type.constantize.new(@rss.url).feed
     end
