@@ -3,6 +3,8 @@ require 'hpricot'
 require 'cgi'
 
 class SubredditRss
+  include Loggable
+  
   attr_reader :url
 
   def initialize(url)
@@ -14,12 +16,16 @@ class SubredditRss
     rss.entries.each do |item|
       # Rewrite url to be the story url
       item.url   = story_url(item)
-      item.image = story_image(item) if item.url
+      item.image = story_image(item) if item.url.present?
     end
+
+    rss.entries = rss.entries.find_all{|e| e.url.present?}
+
     rss
   end
 
   private
+  
   def story_image(item)
     terms = TermExtract.extract(item.title).to_a.flatten
     suckr = ImageSuckr::GoogleSuckr.new
@@ -27,11 +33,14 @@ class SubredditRss
   end
 
   def story_url(item)
-    link = {}
-    doc  = Hpricot(item.summary)
+    return nil if item.try!(:content).blank?
 
-    non_reddit_links = doc.search("a").reject{ |a| a.attributes['href'] =~ /reddit/}
-    link = non_reddit_links.find{ |a| a.attributes['href'] =~ /http/} || {} if non_reddit_links
+    doc  = Hpricot(item.content)
+
+    non_reddit_links = doc.search('a').reject{ |a| a.attributes['href'] =~ /(reddit|\/r\/)/i}
+    link = non_reddit_links.find{ |a| a.attributes['href'] =~ /http/}
+
+    return nil if link.nil?
 
     link['href']
   end
