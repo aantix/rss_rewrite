@@ -4,8 +4,6 @@ ruby "2.6.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2'
-# Use mysql as the database for Active Record
-gem 'mysql2'
 
 gem 'hpricot'
 gem 'feedjira'
@@ -45,6 +43,8 @@ gem 'sucker_punch', '~> 2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  # Use mysql as the database for Active Record
+  gem 'mysql2'
 end
 
 group :development do
@@ -53,7 +53,7 @@ group :development do
 end
 
 group :production do
-  gem 'pg'
+  gem 'pg', '~> 0.18'
   gem 'unicorn'
   gem 'rails_12factor'
   gem 'dalli'
