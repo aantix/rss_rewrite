@@ -4,7 +4,7 @@ xml.rss "version" => "2.0", "xmlns:media" => "http://search.yahoo.com/mrss", "xm
 
     xml.title @rss.name
     xml.description @rss.description
-    xml.link @rss.url
+    xml.link request.original_url
 
     @posts.entries.each do |post|
       next unless post.url
